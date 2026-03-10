@@ -1,5 +1,27 @@
-import Image from "next/image";
+'use client';
 
+import Image from "next/image";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHabitsThunk } from "../features/habitSlice"
+import type {RootState,  AppDispatch } from '../store';
+import Habits from './habits';
+
+export default function Home() {
+  const dispatch = useDispatch<AppDispatch>();
+  const habits = useSelector((state: RootState) => state.habits.habits);
+  useEffect(() => {
+    dispatch(fetchHabitsThunk());
+  }, [dispatch]);
+
+  return (
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+      <Habits habits={habits}/>  
+    </div>
+  );
+}
+
+/*
 export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -63,3 +85,4 @@ export default function Home() {
     </div>
   );
 }
+*/
